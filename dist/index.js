@@ -18,6 +18,7 @@ const db_1 = require("./db");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const middleware_1 = require("./middleware");
+const config_1 = require("./config");
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -63,7 +64,7 @@ app.post("/api/auth/login", (req, res) => __awaiter(void 0, void 0, void 0, func
             return res.status(401).json({ message: "Invalid email or password." });
         }
         // Generate JWT token
-        const token = jsonwebtoken_1.default.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "10h" });
+        const token = jsonwebtoken_1.default.sign({ userId: user.id }, config_1.JWT_PASSWORD);
         res.status(200).json({ message: "Login successful.", token });
     }
     catch (error) {

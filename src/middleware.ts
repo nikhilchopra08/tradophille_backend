@@ -10,7 +10,8 @@ interface AuthenticatedRequest extends Request {
 export function authMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction): void {
 
     console.log("middleware")
-    const token = req.headers.authorization as string;
+    // const token = req.headers.authorization as string;
+    const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
         res.status(403).json({ message: "Authorization token missing" });
@@ -28,6 +29,6 @@ export function authMiddleware(req: AuthenticatedRequest, res: Response, next: N
             res.status(403).json({ message: "Invalid token" });
         }
     } catch (error) {
-        res.status(403).json({ message: "You are not logged in" });
+        res.status(403).json({ message: "You are not logged in"  , error});
     }
 }

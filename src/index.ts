@@ -4,6 +4,7 @@ import { prismaClient } from "./db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { authMiddleware } from './middleware';
+import { JWT_PASSWORD } from './config';
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 const app = express();
@@ -61,7 +62,7 @@ app.post("/api/auth/login", async (req: Request, res: Response): Promise<any> =>
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "10h" });
+    const token = jwt.sign({ userId: user.id }, JWT_PASSWORD);
 
     res.status(200).json({ message: "Login successful.", token });
   } catch (error) {
